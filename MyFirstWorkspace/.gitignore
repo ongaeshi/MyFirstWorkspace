@@ -13,6 +13,12 @@
 # files that we want to exclude
 #
 #########################
+
+
+####
+# My customize
+
+/bin/
  
 #####
 # OS X temporary files that should never be committed

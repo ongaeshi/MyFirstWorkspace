@@ -1,18 +1,33 @@
 #include "testApp.h"
 
+int myCircleX;
+int myCircleY;
+
 //--------------------------------------------------------------
 void testApp::setup()
 {
+    ofSetFrameRate(60);
+
+    myCircleX = 300;
+    myCircleY = 200;
 }
 
 //--------------------------------------------------------------
 void testApp::update()
 {
+    myCircleX += 4;
+
+    // パックマンエフェクト
+    if (myCircleX > 1024) {
+        myCircleX = -60;
+    }
 }
 
 //--------------------------------------------------------------
 void testApp::draw()
 {
+#if 0
+    // 絵を描く
     ofSetColor(255, 255, 255);
     ofCircle(200, 300, 60);
 
@@ -33,6 +48,15 @@ void testApp::draw()
 
     ofSetColor(255, 255, 128);
     ofLine(0, 0, 400, 400);
+
+#else
+    // 動かす
+    ofDrawBitmapString(ofToString(ofGetFrameRate())+"fps", 10, 15);
+
+    ofSetColor(255, 0, 255);
+    ofCircle(myCircleX, myCircleY, 60);
+
+#endif
 }
 
 //--------------------------------------------------------------

@@ -6,6 +6,14 @@
 int myCircleX;
 int myCircleY;
 int myCircleRadius=100;
+mrb_state* mrb;
+
+static mrb_value circle(mrb_state *mrb, mrb_value self)
+{
+    ofCircle(200, 200, 30);
+    // printf("call function\n");
+    return mrb_nil_value();
+}
 
 //--------------------------------------------------------------
 void testApp::setup()
@@ -16,9 +24,18 @@ void testApp::setup()
     myCircleY = 200;
 
 
-    mrb_state* mrb = mrb_open();
-    mrb_load_string(mrb, "puts 'hello world'");
-    mrb_close(mrb);
+    mrb = mrb_open();
+    mrb_define_method(mrb, mrb->kernel_module, "circle", circle, MRB_ARGS_REQ(0));
+
+    // mrb_load_string(mrb,
+    //                 // "p 'hello world';"
+    //                 "circle()"
+    //                 );
+    // if (mrb->exc) { // エラー処理
+    //     mrb_p(mrb, mrb_obj_value(mrb->exc));
+    // }
+
+    // mrb_close(mrb);
 }
 
 //--------------------------------------------------------------
@@ -33,6 +50,12 @@ void testApp::draw()
 
     ofSetColor(255, 0, 255);
     ofCircle(myCircleX, myCircleY, myCircleRadius);
+
+    mrb_load_string(mrb, "circle()");
+
+    // if (mrb->exc) {
+    //     mrb_p(mrb, mrb_obj_value(mrb->exc));
+    // }
 }
 
 //--------------------------------------------------------------

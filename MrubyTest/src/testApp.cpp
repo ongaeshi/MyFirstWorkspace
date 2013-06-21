@@ -1,12 +1,17 @@
 #include "testApp.h"
 
 #include <mruby.h>
+#include <mruby/proc.h>
 #include <mruby/compile.h>
 
 int myCircleX;
 int myCircleY;
 int myCircleRadius=100;
 mrb_state* mrb;
+struct mrb_parser_state* st;
+mrbc_context* c;
+int n;
+struct RProc* proc;
 
 static mrb_value circle(mrb_state *mrb, mrb_value self)
 {
@@ -25,15 +30,23 @@ void testApp::setup()
 
 
     mrb = mrb_open();
+
     mrb_define_method(mrb, mrb->kernel_module, "circle", circle, MRB_ARGS_REQ(0));
 
-    // mrb_load_string(mrb,
-    //                 // "p 'hello world';"
-    //                 "circle()"
-    //                 );
-    // if (mrb->exc) { // エラー処理
-    //     mrb_p(mrb, mrb_obj_value(mrb->exc));
-    // }
+    c =  mrbc_context_new(mrb);
+    st = mrb_parse_string(mrb, "ciffrcle()", c);
+    n = mrb_generate_code(mrb, st);
+    mrb_pool_close(st->pool);
+    proc = mrb_proc_new(mrb, mrb->irep[n]);
+    // mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_nil_value());
+    //mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_nil_value());
+
+    mrb_run(mrb, proc, mrb_nil_value());
+
+    if (mrb->exc) {
+        mrb_p(mrb, mrb_obj_value(mrb->exc));
+    }
+
 
     // mrb_close(mrb);
 }
@@ -51,7 +64,8 @@ void testApp::draw()
     ofSetColor(255, 0, 255);
     ofCircle(myCircleX, myCircleY, myCircleRadius);
 
-    mrb_load_string(mrb, "circle()");
+    mrb_run(mrb, proc, mrb_nil_value());
+    // mrb_load_string(mrb, "circle()");
 
     // if (mrb->exc) {
     //     mrb_p(mrb, mrb_obj_value(mrb->exc));

@@ -1,5 +1,8 @@
 #include "testApp.h"
 
+#include <mruby.h>
+#include <mruby/compile.h>
+
 int myCircleX;
 int myCircleY;
 int myCircleRadius=100;
@@ -11,6 +14,11 @@ void testApp::setup()
 
     myCircleX = 300;
     myCircleY = 200;
+
+
+    mrb_state* mrb = mrb_open();
+    mrb_load_string(mrb, "puts 'hello world'");
+    mrb_close(mrb);
 }
 
 //--------------------------------------------------------------
@@ -49,7 +57,7 @@ void testApp::keyPressed(int key)
 //--------------------------------------------------------------
 void testApp::keyReleased(int key)
 {
-    // cout << "keyReleased " << key << endl;
+    cout << "keyReleased " << key << endl;
     // printf("keyReleased %d\n", key);
 }
 

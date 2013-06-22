@@ -10,8 +10,10 @@ int myCircleRadius=100;
 
 static mrb_value circle(mrb_state *mrb, mrb_value self)
 {
-    ofCircle(200, 200, 30);
-    // printf("call function\n");
+    mrb_float x, y, radius;
+    mrb_get_args(mrb, "fff", &x, &y, &radius);
+    // printf("%f, %f, %f\n", x, y, radius);
+    ofCircle(x, y, radius);
     return mrb_nil_value();
 }
 

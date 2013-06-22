@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include <mruby.h>
 
 class testApp : public ofBaseApp {
 public:
@@ -17,4 +18,7 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
+
+private:
+    mrb_state* mrb;
 };

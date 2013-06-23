@@ -1,4 +1,7 @@
 def setup
+  puts "Hello ruby"
+  p "Hello ruby"
+  # p "Hello mruby"
   @x = 0
   @speed = 5
 end

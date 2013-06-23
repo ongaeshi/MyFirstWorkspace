@@ -14,6 +14,14 @@ def update
 end
 
 def draw
+  set_color(0, 0, 0)
+  text("#{get_frame_rate} fps", 10, 15)
+  text(<<EOF, 10, 40)
+speed       : #{@speed}
+mouse left  : speed up
+mouse right : speed down
+EOF
+
   set_color(255, 0, 0)
   circle(@x, 100, 30)
 

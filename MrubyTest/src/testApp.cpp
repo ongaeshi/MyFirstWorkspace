@@ -1,5 +1,6 @@
 #include "testApp.hpp"
 
+#include "BindApplication.hpp"
 #include "BindGraphics.hpp"
 #include "mruby.h"
 #include "mruby/compile.h"
@@ -16,6 +17,7 @@ void testApp::setup()
 
     // bind
     BindGraphics::Bind(mrb);
+    BindApplication::Bind(mrb);
 
     // load files
     FILE *fd = fopen("../src/sample.rb", "r");
@@ -41,9 +43,6 @@ void testApp::update()
 //--------------------------------------------------------------
 void testApp::draw()
 {
-    // show fps
-    ofDrawBitmapString(ofToString(ofGetFrameRate())+"fps", 10, 15);
-
     // draw from mruby
     mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "draw", 0);
 

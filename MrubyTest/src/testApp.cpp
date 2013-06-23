@@ -4,10 +4,6 @@
 #include <mruby/compile.h>
 #include <stdio.h>
 
-int myCircleX;
-int myCircleY;
-int myCircleRadius=100;
-
 static mrb_value circle(mrb_state *mrb, mrb_value self)
 {
     mrb_float x, y, radius;
@@ -28,6 +24,10 @@ static mrb_value set_color(mrb_state *mrb, mrb_value self)
 //--------------------------------------------------------------
 void testApp::setup()
 {
+    // setup openFrameworks
+    ofSetFrameRate(60);
+    ofBackground(255, 255, 255);
+
     mrb = mrb_open();
 
     // bind
@@ -44,12 +44,6 @@ void testApp::setup()
     if (mrb->exc) {
         mrb_p(mrb, mrb_obj_value(mrb->exc));
     }
-
-    // setup openFrameworks
-    // ofSetFrameRate(60);
-    ofBackground(255, 255, 255);
-    myCircleX = 300;
-    myCircleY = 200;
 }
 
 //--------------------------------------------------------------
@@ -68,10 +62,6 @@ void testApp::draw()
     // show fps
     ofDrawBitmapString(ofToString(ofGetFrameRate())+"fps", 10, 15);
 
-    // draw circle from C++
-    ofSetColor(255, 0, 255);
-    ofCircle(myCircleX, myCircleY, myCircleRadius);
-
     // draw from mruby
     mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "draw", 0);
 
@@ -83,26 +73,12 @@ void testApp::draw()
 //--------------------------------------------------------------
 void testApp::keyPressed(int key)
 {
-    int speed = 8;
-
-    if (key == 356) {
-        myCircleX -= speed;
-    } else if (key == 358) {
-        myCircleX += speed;
-    }
-
-    if (key == 357) {
-        myCircleY -= speed;
-    } else if (key == 359) {
-        myCircleY += speed;
-    }
-    // cout << "keyPressed " << key << endl;
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key)
 {
-    cout << "keyReleased " << key << endl;
+    // cout << "keyReleased " << key << endl;
     // printf("keyReleased %d\n", key);
 }
 
@@ -126,13 +102,7 @@ void testApp::mousePressed(int x, int y, int button)
     if (mrb->exc) {
         mrb_p(mrb, mrb_obj_value(mrb->exc));
     }
-
-    float distance = ofDist(myCircleX, myCircleY, x, y);
-
-    if (distance < myCircleRadius) {
-        myCircleRadius++;
-    }
-    cout << "mousePressed: " << x << ", " << y << " button: " << button << endl;
+    // cout << "mousePressed: " << x << ", " << y << " button: " << button << endl;
 }
 
 //--------------------------------------------------------------

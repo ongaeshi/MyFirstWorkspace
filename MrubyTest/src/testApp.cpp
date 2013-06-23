@@ -46,7 +46,8 @@ void testApp::setup()
     }
 
     // setup openFrameworks
-    ofSetFrameRate(60);
+    // ofSetFrameRate(60);
+    ofBackground(255, 255, 255);
     myCircleX = 300;
     myCircleY = 200;
 }
@@ -120,12 +121,18 @@ void testApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button)
 {
+    mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "mouse_pressed", 3, mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(button));
+
+    if (mrb->exc) {
+        mrb_p(mrb, mrb_obj_value(mrb->exc));
+    }
+
     float distance = ofDist(myCircleX, myCircleY, x, y);
 
     if (distance < myCircleRadius) {
         myCircleRadius++;
     }
-    // cout << "mousePressed: " << x << ", " << y << " button: " << button << endl;
+    cout << "mousePressed: " << x << ", " << y << " button: " << button << endl;
 }
 
 //--------------------------------------------------------------

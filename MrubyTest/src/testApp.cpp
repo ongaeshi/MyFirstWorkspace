@@ -5,6 +5,14 @@
 #include "mruby.h"
 #include "mruby/compile.h"
 #include <stdio.h>
+#include <unistd.h>
+
+//--------------------------------------------------------------
+testApp::testApp(const char* aFilename)
+: mFilename(aFilename)
+, mrb(NULL)
+{
+}
 
 //--------------------------------------------------------------
 void testApp::setup()
@@ -21,7 +29,9 @@ void testApp::setup()
     BindApplication::Bind(mrb);
 
     // load files
-    FILE *fd = fopen("../src/sample.rb", "r");
+    // FILE *fd = fopen("../src/sample.rb", "r");
+    // FILE *fd = fopen("/Users/ongaeshi/Documents/of_v0.7.4_osx_release/apps/MyFirstWorkspace/MrubyTest/src/sample.rb", "r");
+    FILE *fd = fopen(mFilename, "r");
     mrb_load_file(mrb, fd);
 
     // call
@@ -44,6 +54,13 @@ void testApp::update()
 //--------------------------------------------------------------
 void testApp::draw()
 {
+    // ofSetColor(0, 0, 0);
+    // ofDrawBitmapString("argc: " + ofToString(mArgc) + "\n" + "argv[0]: " + ofToString(mArgv[0]) + "\n" + "argv[1]: " + ofToString(mArgv[1]), 10, 200);
+
+    // char dir[255];
+    // getcwd(dir,255);
+    // ofDrawBitmapString("cwd: " + ofToString(dir), 10, 300);
+
     // draw from mruby
     mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "draw", 0);
 

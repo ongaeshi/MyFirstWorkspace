@@ -7,6 +7,8 @@ struct mrb_state;
 //--------------------------------------------------------------------------------
 class testApp : public ofBaseApp {
 public:
+    testApp(const char* aFilename);
+
     void setup();
     void update();
     void draw();
@@ -22,6 +24,7 @@ public:
     void gotMessage(ofMessage msg);
 
 private:
+    const char* mFilename;
     mrb_state* mrb;
 };
 

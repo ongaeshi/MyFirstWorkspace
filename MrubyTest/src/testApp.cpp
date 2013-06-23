@@ -11,6 +11,7 @@ void testApp::setup()
 {
     // setup openFrameworks
     ofSetFrameRate(60);
+    ofSetVerticalSync(true);
     ofBackground(255, 255, 255);
 
     mrb = mrb_open();

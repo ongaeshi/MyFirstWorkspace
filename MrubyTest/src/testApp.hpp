@@ -1,8 +1,10 @@
 #pragma once
 
 #include "ofMain.h"
-#include <mruby.h>
 
+struct mrb_state;
+
+//--------------------------------------------------------------------------------
 class testApp : public ofBaseApp {
 public:
     void setup();
@@ -22,3 +24,5 @@ public:
 private:
     mrb_state* mrb;
 };
+
+//EOF

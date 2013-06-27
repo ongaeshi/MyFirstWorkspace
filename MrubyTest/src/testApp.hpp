@@ -23,6 +23,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
+    void chkException();
+
 private:
     const char* mFilename;
     mrb_state* mrb;

@@ -36,18 +36,15 @@ void testApp::setup()
 
     // call
     mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "setup", 0);
-    if (mrb->exc) {
-        mrb_p(mrb, mrb_obj_value(mrb->exc));
-    }
+    chkException();
 }
 
 //--------------------------------------------------------------
 void testApp::update()
 {
-    mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "update", 0);
-
-    if (mrb->exc) {
-        mrb_p(mrb, mrb_obj_value(mrb->exc));
+    if (mrb) {
+        mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "update", 0);
+        chkException();
     }
 }
 
@@ -62,10 +59,9 @@ void testApp::draw()
     // ofDrawBitmapString("cwd: " + ofToString(dir), 10, 300);
 
     // draw from mruby
-    mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "draw", 0);
-
-    if (mrb->exc) {
-        mrb_p(mrb, mrb_obj_value(mrb->exc));
+    if (mrb) {
+        mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "draw", 0);
+        chkException();
     }
 }
 
@@ -96,10 +92,9 @@ void testApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button)
 {
-    mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "mouse_pressed", 3, mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(button));
-
-    if (mrb->exc) {
-        mrb_p(mrb, mrb_obj_value(mrb->exc));
+    if (mrb) {
+        mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "mouse_pressed", 3, mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(button));
+        chkException();
     }
     // cout << "mousePressed: " << x << ", " << y << " button: " << button << endl;
 }
@@ -123,6 +118,16 @@ void testApp::gotMessage(ofMessage msg)
 //--------------------------------------------------------------
 void testApp::dragEvent(ofDragInfo dragInfo)
 {
+}
+
+//--------------------------------------------------------------
+void testApp::chkException()
+{
+    if (mrb->exc) {
+        mrb_p(mrb, mrb_obj_value(mrb->exc));
+        mrb_close(mrb);
+        mrb = NULL;
+    }
 }
 
 //EOF

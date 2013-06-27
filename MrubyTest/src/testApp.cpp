@@ -3,6 +3,7 @@
 #include "BindApplication.hpp"
 #include "BindGraphics.hpp"
 #include "mruby.h"
+#include "mruby/class.h"
 #include "mruby/compile.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -35,14 +36,16 @@ void testApp::setup()
     mrb_load_file(mrb, fd);
 
     // call
-    mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "setup", 0);
-    chkException();
+    if (isExistFunction("setup")) {
+        mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "setup", 0);
+        chkException();
+    }
 }
 
 //--------------------------------------------------------------
 void testApp::update()
 {
-    if (mrb) {
+    if (mrb && isExistFunction("update")) {
         mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "update", 0);
         chkException();
     }
@@ -59,7 +62,7 @@ void testApp::draw()
     // ofDrawBitmapString("cwd: " + ofToString(dir), 10, 300);
 
     // draw from mruby
-    if (mrb) {
+    if (mrb && isExistFunction("draw")) {
         mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "draw", 0);
         chkException();
     }
@@ -92,7 +95,7 @@ void testApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button)
 {
-    if (mrb) {
+    if (mrb && isExistFunction("mouse_pressed")) {
         mrb_funcall(mrb, mrb_obj_value(mrb->kernel_module), "mouse_pressed", 3, mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(button));
         chkException();
     }
@@ -118,6 +121,15 @@ void testApp::gotMessage(ofMessage msg)
 //--------------------------------------------------------------
 void testApp::dragEvent(ofDragInfo dragInfo)
 {
+}
+
+//--------------------------------------------------------------
+bool testApp::isExistFunction(const char* aFuncName)
+{
+    mrb_value value = mrb_obj_value(mrb->kernel_module);
+    struct RClass *c = mrb_class(mrb, value);
+    struct RProc *p = mrb_method_search_vm(mrb, &c, mrb_intern(mrb, aFuncName));
+    return p != NULL;
 }
 
 //--------------------------------------------------------------

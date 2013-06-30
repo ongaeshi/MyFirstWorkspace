@@ -12,6 +12,7 @@
 testApp::testApp(const char* aFilename)
 : mFilename(aFilename)
 , mrb(NULL)
+, mRb(aFilename)
 {
 }
 

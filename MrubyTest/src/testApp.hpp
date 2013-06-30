@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "MRuby.hpp"
 
 struct mrb_state;
 
@@ -29,6 +30,7 @@ public:
 private:
     const char* mFilename;
     mrb_state* mrb;
+    rubybasic::MRuby mRb;
 };
 
 //EOF

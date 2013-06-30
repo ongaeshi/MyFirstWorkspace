@@ -25,17 +25,25 @@ MRuby::~MRuby()
 //--------------------------------------------------------------------------------
 mrb_value MRuby::funcallIf(mrb_value aSelf, const char* aName)
 {
-    if (isExistFunction("setup")) {
+    if (mMrb && isExistFunction(aSelf, aName)) {
         mrb_funcall(mMrb, aSelf, aName, 0);
         closeOnException();
     }
 }
 
 //--------------------------------------------------------------------------------
-bool MRuby::isExistFunction(const char* aFuncName)
+mrb_value MRuby::funcallIf(mrb_value aSelf, const char* aName, mrb_value aArg1, mrb_value aArg2, mrb_value aArg3)
 {
-    mrb_value value = mrb_obj_value(mMrb->kernel_module);
-    struct RClass *c = mrb_class(mMrb, value);
+    if (mMrb && isExistFunction(aSelf, aName)) {
+        mrb_funcall(mMrb, aSelf, aName, 3, aArg1, aArg2, aArg3);
+        closeOnException();
+    }
+}
+
+//--------------------------------------------------------------------------------
+bool MRuby::isExistFunction(mrb_value aSelf, const char* aFuncName)
+{
+    struct RClass *c = mrb_class(mMrb, aSelf);
     struct RProc *p = mrb_method_search_vm(mMrb, &c, mrb_intern(mMrb, aFuncName));
     return p != NULL;
 }

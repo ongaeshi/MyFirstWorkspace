@@ -24,13 +24,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    bool isExistFunction(const char* aFuncName);
-    void chkException();
-
 private:
-    const char* mFilename;
-    mrb_state* mrb;
-    rubybasic::MRuby mRb;
+    rubybasic::MRuby mScriptEngine;
 };
 
 //EOF

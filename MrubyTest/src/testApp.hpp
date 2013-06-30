@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "MRuby.hpp"
+#include "ScriptEngine.hpp"
 
 struct mrb_state;
 
@@ -25,7 +25,7 @@ public:
     void gotMessage(ofMessage msg);
 
 private:
-    rubybasic::MRuby mScriptEngine;
+    rubybasic::ScriptEngine mScriptEngine;
 };
 
 //EOF

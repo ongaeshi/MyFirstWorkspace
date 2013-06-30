@@ -5,10 +5,10 @@
 //--------------------------------------------------------------------------------
 namespace rubybasic {
 
-class MRuby {
+class ScriptEngine {
 public:
-    MRuby(const char* aFilename);
-    ~MRuby();
+    ScriptEngine(const char* aFilename);
+    ~ScriptEngine();
 
     mrb_state* mrb() { return mMrb; }
 

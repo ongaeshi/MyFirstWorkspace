@@ -23,21 +23,27 @@ MRuby::~MRuby()
 }
 
 //--------------------------------------------------------------------------------
-mrb_value MRuby::funcallIf(mrb_value aSelf, const char* aName)
+mrb_value MRuby::funcallIf(const char* aName)
 {
-    if (mMrb && isExistFunction(aSelf, aName)) {
-        mrb_funcall(mMrb, aSelf, aName, 0);
+    if (mMrb && isExistFunction(kernel_obj(), aName)) {
+        mrb_value value = mrb_funcall(mMrb, kernel_obj(), aName, 0);
         closeOnException();
+        return value;
     }
+
+    return mrb_nil_value();
 }
 
 //--------------------------------------------------------------------------------
-mrb_value MRuby::funcallIf(mrb_value aSelf, const char* aName, mrb_value aArg1, mrb_value aArg2, mrb_value aArg3)
+mrb_value MRuby::funcallIf(const char* aName, mrb_value aArg1, mrb_value aArg2, mrb_value aArg3)
 {
-    if (mMrb && isExistFunction(aSelf, aName)) {
-        mrb_funcall(mMrb, aSelf, aName, 3, aArg1, aArg2, aArg3);
+    if (mMrb && isExistFunction(kernel_obj(), aName)) {
+        mrb_value value = mrb_funcall(mMrb, kernel_obj(), aName, 3, aArg1, aArg2, aArg3);
         closeOnException();
+        return value;
     }
+
+    return mrb_nil_value();
 }
 
 //--------------------------------------------------------------------------------
@@ -49,7 +55,7 @@ bool MRuby::isExistFunction(mrb_value aSelf, const char* aFuncName)
 }
 
 //--------------------------------------------------------------------------------
-bool MRuby::closeOnException()
+void MRuby::closeOnException()
 {
     if (mMrb->exc) {
         mrb_p(mMrb, mrb_obj_value(mMrb->exc));

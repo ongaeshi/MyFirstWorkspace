@@ -12,16 +12,18 @@ public:
 
     mrb_state* mrb() { return mMrb; }
 
-    mrb_value funcallIf(mrb_value aSelf, const char* aName);
-    mrb_value funcallIf(mrb_value aSelf, const char* aName, mrb_value aArg1);
-    mrb_value funcallIf(mrb_value aSelf, const char* aName, mrb_value aArg1, mrb_value aArg2);
-    mrb_value funcallIf(mrb_value aSelf, const char* aName, mrb_value aArg1, mrb_value aArg2, mrb_value aArg3);
+    // Create need function only 
+    mrb_value funcallIf(const char* aName);
+    mrb_value funcallIf(const char* aName, mrb_value aArg1, mrb_value aArg2, mrb_value aArg3);
 
     void reload();
 
 private:
+    struct RClass* kernel_module() { return mMrb->kernel_module; }
+    mrb_value      kernel_obj()    { return mrb_obj_value(kernel_module()); }
+
     bool isExistFunction(mrb_value aSelf, const char* aFuncName);
-    bool closeOnException();
+    void closeOnException();
 
     const char* mFilename;
     mrb_state*  mMrb;

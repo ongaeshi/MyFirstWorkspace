@@ -27,19 +27,19 @@ void testApp::setup()
     BindApplication::Bind(mScriptEngine.mrb());
 
     // call
-    mScriptEngine.funcallIf(mrb_obj_value(mScriptEngine.mrb()->kernel_module), "setup");
+    mScriptEngine.funcallIf("setup");
 }
 
 //--------------------------------------------------------------
 void testApp::update()
 {
-    mScriptEngine.funcallIf(mrb_obj_value(mScriptEngine.mrb()->kernel_module), "update");
+    mScriptEngine.funcallIf("update");
 }
 
 //--------------------------------------------------------------
 void testApp::draw()
 {
-    mScriptEngine.funcallIf(mrb_obj_value(mScriptEngine.mrb()->kernel_module), "draw");
+    mScriptEngine.funcallIf("draw");
 }
 
 //--------------------------------------------------------------
@@ -66,8 +66,7 @@ void testApp::mouseDragged(int x, int y, int button)
 void testApp::mousePressed(int x, int y, int button)
 {
     mScriptEngine.funcallIf(
-        mrb_obj_value(mScriptEngine.mrb()->kernel_module)
-        , "mouse_pressed"
+        "mouse_pressed"
         , mrb_fixnum_value(x)
         , mrb_fixnum_value(y)
         , mrb_fixnum_value(button)

@@ -41,6 +41,8 @@ void testApp::draw()
 //--------------------------------------------------------------
 void testApp::keyPressed(int key)
 {
+    if (key == 13) // enter
+        mScriptEngine.reload();
 }
 
 //--------------------------------------------------------------
@@ -67,10 +69,6 @@ void testApp::mousePressed(int x, int y, int button)
         , mrb_fixnum_value(y)
         , mrb_fixnum_value(button)
         );
-
-    // reload on right-click
-    if (button == 2)
-        mScriptEngine.reload();
 }
 
 //--------------------------------------------------------------

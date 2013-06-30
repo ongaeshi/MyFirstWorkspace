@@ -1,5 +1,7 @@
 #include "ScriptEngine.hpp"
 
+#include "BindApplication.hpp"
+#include "BindGraphics.hpp"
 #include "mruby/class.h"
 #include "mruby/compile.h"
 
@@ -8,18 +10,27 @@ namespace rubybasic {
 //--------------------------------------------------------------------------------
 ScriptEngine::ScriptEngine(const char* aFilename)
 : mFilename(aFilename)
-, mMrb(mrb_open())
+, mMrb(NULL)
 {
-    FILE *fd = fopen(mFilename, "r");
-    mrb_load_file(mMrb, fd);
-    fclose(fd);
+    open();
+    load(mFilename);
 }
 
 //--------------------------------------------------------------------------------
 ScriptEngine::~ScriptEngine()
 {
-    if (mMrb)
-        mrb_close(mMrb);
+    close();
+}
+
+//--------------------------------------------------------------------------------
+void ScriptEngine::setup()
+{
+    // bind
+    BindGraphics::Bind(mMrb);
+    BindApplication::Bind(mMrb);
+
+    // call setup
+    funcallIf("setup");
 }
 
 //--------------------------------------------------------------------------------
@@ -47,6 +58,44 @@ mrb_value ScriptEngine::funcallIf(const char* aName, mrb_value aArg1, mrb_value 
 }
 
 //--------------------------------------------------------------------------------
+void ScriptEngine::reload()
+{
+    reopen();  // comment out?
+    load(mFilename);
+    setup();
+}
+
+//--------------------------------------------------------------------------------
+void ScriptEngine::open()
+{
+    mMrb = mrb_open();
+}
+
+//--------------------------------------------------------------------------------
+void ScriptEngine::load(const char* aFilename)
+{
+    FILE *fd = fopen(mFilename, "r");
+    mrb_load_file(mMrb, fd);
+    fclose(fd);
+}
+    
+//--------------------------------------------------------------------------------
+void ScriptEngine::close()
+{
+    if (mMrb) {
+        mrb_close(mMrb);
+        mMrb = NULL;
+    }
+}
+
+//--------------------------------------------------------------------------------
+void ScriptEngine::reopen()
+{
+    close();
+    open();
+}
+
+//--------------------------------------------------------------------------------
 bool ScriptEngine::isExistFunction(mrb_value aSelf, const char* aFuncName)
 {
     struct RClass *c = mrb_class(mMrb, aSelf);
@@ -63,6 +112,5 @@ void ScriptEngine::closeOnException()
         mMrb = NULL;
     }
 }
-
 
 }

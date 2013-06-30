@@ -22,12 +22,8 @@ void testApp::setup()
     ofSetVerticalSync(true);
     // ofBackground(255, 255, 255);
 
-    // bind
-    BindGraphics::Bind(mScriptEngine.mrb());
-    BindApplication::Bind(mScriptEngine.mrb());
-
-    // call
-    mScriptEngine.funcallIf("setup");
+    // bind & call function
+    mScriptEngine.setup();
 }
 
 //--------------------------------------------------------------
@@ -71,6 +67,10 @@ void testApp::mousePressed(int x, int y, int button)
         , mrb_fixnum_value(y)
         , mrb_fixnum_value(button)
         );
+
+    // reload on right-click
+    if (button == 2)
+        mScriptEngine.reload();
 }
 
 //--------------------------------------------------------------

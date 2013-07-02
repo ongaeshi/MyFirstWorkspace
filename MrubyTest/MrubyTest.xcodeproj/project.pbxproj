@@ -244,9 +244,9 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				52734F6E1776CECC009CCEF3 /* BindApplication.cpp */,
 				529C610D17808CC000168718 /* ScriptEngine.cpp */,
 				529C610E17808CC000168718 /* ScriptEngine.hpp */,
+				52734F6E1776CECC009CCEF3 /* BindApplication.cpp */,
 				52734F6F1776CECC009CCEF3 /* BindApplication.hpp */,
 				52734F6A1776C8DB009CCEF3 /* BindGraphics.cpp */,
 				52734F6B1776C8DB009CCEF3 /* BindGraphics.hpp */,

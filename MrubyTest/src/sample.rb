@@ -2,8 +2,8 @@ def setup
   puts "Hello ruby"
   p "Hello ruby"
   # p "Hello mruby"
-  @x = 0
-  @speed = 5
+  @x = 400
+  @speed = 10
 end
 
 def update
@@ -19,7 +19,7 @@ end
 def draw
   set_color(0, 0, 0)
   text("#{get_frame_rate} fps", 10, 15)
-  text(<<EOF, 10, 40)
+  text(<<EOF, 40, 40)
 speed       : #{@speed}
 mouse left  : speed up
 mouse right : speed down
@@ -34,7 +34,8 @@ EOF
   set_color(0, 0, 255)
   circle(@x + 40, 300, 40)
 
-  set_color(128, @x % 255, 0)
+  c = (@x * 0.7) % 255
+  set_color(c, c, c)
   circle(@x + 60, 400, 45)
 end
 

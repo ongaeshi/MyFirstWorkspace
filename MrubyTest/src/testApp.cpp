@@ -41,13 +41,16 @@ void testApp::draw()
 //--------------------------------------------------------------
 void testApp::keyPressed(int key)
 {
-    if (key == 13) // enter
+    if (key == 18) // Ctrl+R
         mScriptEngine.reload();
+
+    // cout << "keyPressed " << key << endl;
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key)
 {
+    // cout << "keyReleased " << key << endl;
 }
 
 //--------------------------------------------------------------

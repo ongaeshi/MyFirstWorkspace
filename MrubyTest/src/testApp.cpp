@@ -11,6 +11,7 @@
 //--------------------------------------------------------------
 testApp::testApp(const char* aFilename)
 : mScriptEngine(aFilename)
+, mInput()
 {
 }
 
@@ -66,6 +67,8 @@ void testApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button)
 {
+    mInput.updateMouse(x, y, button);
+    
     mScriptEngine.funcallIf(
         "mouse_pressed"
         , mrb_fixnum_value(x)

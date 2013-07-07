@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ScriptEngine.hpp"
+#include "Input.hpp"
 
 struct mrb_state;
 
@@ -26,6 +27,7 @@ public:
 
 private:
     rubybasic::ScriptEngine mScriptEngine;
+    rubybasic::Input        mInput;
 };
 
 //EOF

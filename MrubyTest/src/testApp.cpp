@@ -1,7 +1,6 @@
 #include "testApp.hpp"
 
-#include "BindApplication.hpp"
-#include "BindGraphics.hpp"
+#include "BindInput.hpp"
 #include "mruby.h"
 #include "mruby/class.h"
 #include "mruby/compile.h"
@@ -13,6 +12,7 @@ testApp::testApp(const char* aFilename)
 : mInput()
 , mScriptEngine(aFilename)
 {
+    rubybasic::BindInput::Setup(mInput);
 }
 
 //--------------------------------------------------------------

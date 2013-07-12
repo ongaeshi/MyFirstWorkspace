@@ -2,6 +2,7 @@
 
 #include "BindApplication.hpp"
 #include "BindGraphics.hpp"
+#include "BindInput.hpp"
 #include "mruby/class.h"
 #include "mruby/compile.h"
 
@@ -28,6 +29,7 @@ void ScriptEngine::setup()
     // bind
     BindGraphics::Bind(mMrb);
     BindApplication::Bind(mMrb);
+    BindInput::Bind(mMrb);
 
     // call setup
     funcallIf("setup");

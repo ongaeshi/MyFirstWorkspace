@@ -3,18 +3,25 @@
 namespace rubybasic {
 //------------------------------------------------------------
 Mouse::Mouse()
-: mX(0)
+: mInternal()
+, mX(0)
 , mY(0)
-, mButton(0)
 {
 }
 
 //------------------------------------------------------------
-void Mouse::update(int aX, int aY, int aButton)
+void Mouse::setInternalPos(int aX, int aY)
 {
-    mX      = aX;
-    mY      = aY;
-    mButton = aButton;
+    mInternal.x = aX;
+    mInternal.y = aY;
+}
+ 
+//------------------------------------------------------------
+void Mouse::update()
+{
+    mX = mInternal.x;
+    mY = mInternal.y;
+    // printf("x: %d, y: %d\n", mX, mY);
 }
 
 }

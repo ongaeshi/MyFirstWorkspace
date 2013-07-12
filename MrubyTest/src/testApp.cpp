@@ -10,8 +10,8 @@
 
 //--------------------------------------------------------------
 testApp::testApp(const char* aFilename)
-: mScriptEngine(aFilename)
-, mInput()
+: mInput()
+, mScriptEngine(aFilename)
 {
 }
 
@@ -30,6 +30,7 @@ void testApp::setup()
 //--------------------------------------------------------------
 void testApp::update()
 {
+    mInput.update();
     mScriptEngine.funcallIf("update");
 }
 
@@ -57,17 +58,20 @@ void testApp::keyReleased(int key)
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y)
 {
+    mInput.mouse().setInternalPos(x, y);
 }
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button)
 {
+    mInput.mouse().setInternalPos(x, y);
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button)
 {
-    mInput.updateMouse(x, y, button);
+    mInput.mouse().setInternalPos(x, y);
+    // mInput.mouse().setInternalPress(button);
     
     mScriptEngine.funcallIf(
         "mouse_pressed"

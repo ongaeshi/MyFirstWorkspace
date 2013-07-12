@@ -9,8 +9,10 @@ class Input {
 public:
     Input();
 
-    void updateMouse(int aX, int aY, int aButton);
-    const Mouse& mouse() const;
+    void update();
+
+    Mouse& mouse() { return mMouse; }
+    const Mouse& mouse() const { return mMouse; }
 
 private:
     Mouse mMouse;

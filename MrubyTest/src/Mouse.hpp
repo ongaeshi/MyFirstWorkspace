@@ -10,16 +10,28 @@ public:
     
     Mouse();
 
-    void update(int aX, int aY, int aButton);
+    void setInternalPos(int aX, int aY);
+    
+    void update();
 
     int x() const { return mX; }
     int y() const { return mY; }
-    int button() const { return mButton; }
 
 private:
+    struct Internal {
+        Internal()
+        : x(0)
+        , y(0)
+        , button(0) {}
+            
+        int x;
+        int y;
+        int button;
+    };
+
+    Internal mInternal;
     int mX;
     int mY;
-    int mButton;
 };
 
 }

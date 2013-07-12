@@ -8,15 +8,9 @@ Input::Input()
 }
 
 //------------------------------------------------------------
-void Input::updateMouse(int aX, int aY, int aButton)
+void Input::update()
 {
-    mMouse.update(aX, aY, aButton);
-}
-
-//------------------------------------------------------------
-const Mouse& Input::mouse() const
-{
-    return mMouse;
+    mMouse.update();
 }
 
 }

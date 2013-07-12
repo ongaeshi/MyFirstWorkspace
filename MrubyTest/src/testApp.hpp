@@ -26,8 +26,8 @@ public:
     void gotMessage(ofMessage msg);
 
 private:
-    rubybasic::ScriptEngine mScriptEngine;
     rubybasic::Input        mInput;
+    rubybasic::ScriptEngine mScriptEngine;
 };
 
 //EOF

@@ -59,6 +59,8 @@ void testApp::keyReleased(int key)
 void testApp::mouseMoved(int x, int y)
 {
     mInput.mouse().setInternalPos(x, y);
+
+    mScriptEngine.funcallIf("mouse_moved", mrb_fixnum_value(x), mrb_fixnum_value(y));
 }
 
 //--------------------------------------------------------------
@@ -73,12 +75,7 @@ void testApp::mousePressed(int x, int y, int button)
     mInput.mouse().setInternalPos(x, y);
     // mInput.mouse().setInternalPress(button);
     
-    mScriptEngine.funcallIf(
-        "mouse_pressed"
-        , mrb_fixnum_value(x)
-        , mrb_fixnum_value(y)
-        , mrb_fixnum_value(button)
-        );
+    mScriptEngine.funcallIf("mouse_pressed", mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(button));
 }
 
 //--------------------------------------------------------------

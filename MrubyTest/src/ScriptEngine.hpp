@@ -16,6 +16,7 @@ public:
 
     // Create need function only
     mrb_value funcallIf(const char* aName);
+    mrb_value funcallIf(const char* aName, mrb_value aArg1, mrb_value aArg2);
     mrb_value funcallIf(const char* aName, mrb_value aArg1, mrb_value aArg2, mrb_value aArg3);
 
     void reload();

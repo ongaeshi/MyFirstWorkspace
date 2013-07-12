@@ -48,6 +48,18 @@ mrb_value ScriptEngine::funcallIf(const char* aName)
 }
 
 //--------------------------------------------------------------------------------
+mrb_value ScriptEngine::funcallIf(const char* aName, mrb_value aArg1, mrb_value aArg2)
+{
+    if (mMrb && isExistFunction(kernel_obj(), aName)) {
+        mrb_value value = mrb_funcall(mMrb, kernel_obj(), aName, 2, aArg1, aArg2);
+        closeOnException();
+        return value;
+    }
+
+    return mrb_nil_value();
+}
+
+//--------------------------------------------------------------------------------
 mrb_value ScriptEngine::funcallIf(const char* aName, mrb_value aArg1, mrb_value aArg2, mrb_value aArg3)
 {
     if (mMrb && isExistFunction(kernel_obj(), aName)) {

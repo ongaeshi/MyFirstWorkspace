@@ -19,7 +19,8 @@ end
 def draw
   set_color(0, 0, 0)
   text("#{get_frame_rate} fps", 10, 15)
-  text(<<EOF, 40, 40)
+  text("Mouse: (#{Input.mouse_x}, #{Input.mouse_y})", 10, 30)
+  text(<<EOF, 40, 45)
 speed       : #{@speed}
 mouse left  : speed up
 mouse right : speed down
@@ -37,6 +38,9 @@ EOF
   c = (@x * 0.7) % 255
   set_color(c, c, c)
   circle(@x + 60, 400, 45)
+
+  set_color(0, 128, 128)
+  circle(Input.mouse_x, Input.mouse_y, 20)
 end
 
 def mouse_pressed(x, y, button)

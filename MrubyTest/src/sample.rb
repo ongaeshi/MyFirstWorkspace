@@ -1,9 +1,11 @@
+# -*- coding: undecided -*-
 def setup
   puts "Hello ruby"
   p "Hello ruby"
   # p "Hello mruby"
   @x = 400
   @speed = 10
+  @mouse_x = @mouse_y = 0
 end
 
 def update
@@ -40,7 +42,15 @@ EOF
   circle(@x + 60, 400, 45)
 
   set_color(0, 128, 128)
-  circle(Input.mouse_x, Input.mouse_y, 20)
+  circle(Input.mouse_x, Input.mouse_y, 30)
+
+  set_color(128, 128, 0)
+  circle(@mouse_x, @mouse_y, 20)
+end
+
+def mouse_moved(x, y)
+  @mouse_x = x
+  @mouse_y = y
 end
 
 def mouse_pressed(x, y, button)

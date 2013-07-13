@@ -17,6 +17,13 @@ namespace {
     {
         return mrb_fixnum_value(sInput->mouse().y());
     }
+
+    static mrb_value input_mouse_is_down(mrb_state *mrb, mrb_value self)
+    {
+        mrb_int code;
+        mrb_get_args(mrb, "i", &code);
+        return mrb_bool_value(sInput->mouse().isDown(code));
+    }
 }
 
 //--------------------------------------------------------------------------------
@@ -32,6 +39,7 @@ void BindInput::Bind(mrb_state* mrb)
 
     mrb_define_module_function(mrb, c, "mouse_x", input_mouse_x, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, c, "mouse_y", input_mouse_y, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, c, "mouse_down?", input_mouse_is_down, ARGS_REQ(1));
 }
 
 }

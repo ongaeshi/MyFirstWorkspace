@@ -21,10 +21,22 @@ def update
   end
 end
 
+def mouse_debug_info
+  str = "(#{Input.mouse_x}, #{Input.mouse_y}) "
+
+  # down?
+  str += "down?: "
+  str += (0..2).map {|v|
+    Input.mouse_down?(v) ? '1' : '0'
+  }.join('')
+
+  str
+end
+
 def draw
   set_color(0, 0, 0)
   text("#{get_frame_rate} fps", 10, 15)
-  text("Mouse: (#{Input.mouse_x}, #{Input.mouse_y}), p:#{@mouse_pressed}, r:#{@mouse_released}", 10, 30)
+  text("Mouse: #{mouse_debug_info}", 10, 30)
   text(<<EOF, 40, 45)
 speed       : #{@speed}
 mouse left  : speed up

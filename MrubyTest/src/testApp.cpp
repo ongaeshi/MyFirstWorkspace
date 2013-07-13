@@ -81,6 +81,7 @@ void testApp::mousePressed(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button)
 {
+    mScriptEngine.funcallIf("mouse_released", mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(button));
 }
 
 //--------------------------------------------------------------

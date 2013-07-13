@@ -6,6 +6,9 @@ def setup
   @x = 400
   @speed = 10
   @mouse_x = @mouse_y = 0
+  @mouse_button = []
+  @mouse_pressed = -1
+  @mouse_released = -1
 end
 
 def update
@@ -21,7 +24,7 @@ end
 def draw
   set_color(0, 0, 0)
   text("#{get_frame_rate} fps", 10, 15)
-  text("Mouse: (#{Input.mouse_x}, #{Input.mouse_y})", 10, 30)
+  text("Mouse: (#{Input.mouse_x}, #{Input.mouse_y}), p:#{@mouse_pressed}, r:#{@mouse_released}", 10, 30)
   text(<<EOF, 40, 45)
 speed       : #{@speed}
 mouse left  : speed up
@@ -56,6 +59,11 @@ end
 def mouse_pressed(x, y, button)
   @speed += 5 if (button == 0)
   @speed -= 5 if (button == 2)  
+  @mouse_pressed = button
+end
+
+def mouse_released(x, y, button)
+  @mouse_released = button
 end
 
 

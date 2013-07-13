@@ -73,7 +73,7 @@ void testApp::mouseDragged(int x, int y, int button)
 void testApp::mousePressed(int x, int y, int button)
 {
     mInput.mouse().setInternalPos(x, y);
-    // mInput.mouse().setInternalPress(button);
+    mInput.mouse().setInternalPress(button);
     
     mScriptEngine.funcallIf("mouse_pressed", mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(button));
 }
@@ -81,6 +81,9 @@ void testApp::mousePressed(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button)
 {
+    mInput.mouse().setInternalPos(x, y);
+    mInput.mouse().setInternalRelease(button);
+
     mScriptEngine.funcallIf("mouse_released", mrb_fixnum_value(x), mrb_fixnum_value(y), mrb_fixnum_value(button));
 }
 

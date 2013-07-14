@@ -3,6 +3,7 @@
 #include "BindApplication.hpp"
 #include "BindGraphics.hpp"
 #include "BindInput.hpp"
+#include "mruby.h"
 #include "mruby/class.h"
 #include "mruby/compile.h"
 
@@ -39,7 +40,9 @@ void ScriptEngine::setup()
 mrb_value ScriptEngine::funcallIf(const char* aName)
 {
     if (mMrb && isExistFunction(kernel_obj(), aName)) {
+        int ai = mrb_gc_arena_save(mMrb);
         mrb_value value = mrb_funcall(mMrb, kernel_obj(), aName, 0);
+        mrb_gc_arena_restore(mMrb, ai);
         closeOnException();
         return value;
     }
@@ -51,7 +54,9 @@ mrb_value ScriptEngine::funcallIf(const char* aName)
 mrb_value ScriptEngine::funcallIf(const char* aName, mrb_value aArg1, mrb_value aArg2)
 {
     if (mMrb && isExistFunction(kernel_obj(), aName)) {
+        int ai = mrb_gc_arena_save(mMrb);
         mrb_value value = mrb_funcall(mMrb, kernel_obj(), aName, 2, aArg1, aArg2);
+        mrb_gc_arena_restore(mMrb, ai);
         closeOnException();
         return value;
     }
@@ -63,7 +68,9 @@ mrb_value ScriptEngine::funcallIf(const char* aName, mrb_value aArg1, mrb_value 
 mrb_value ScriptEngine::funcallIf(const char* aName, mrb_value aArg1, mrb_value aArg2, mrb_value aArg3)
 {
     if (mMrb && isExistFunction(kernel_obj(), aName)) {
+        int ai = mrb_gc_arena_save(mMrb);
         mrb_value value = mrb_funcall(mMrb, kernel_obj(), aName, 3, aArg1, aArg2, aArg3);
+        mrb_gc_arena_restore(mMrb, ai);
         closeOnException();
         return value;
     }

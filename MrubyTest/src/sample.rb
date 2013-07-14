@@ -1,26 +1,35 @@
 def setup
-  puts "Hello mruby"
-  p "Hello mruby"
-
-  @x = 400
-  @speed = 10
+  @lines = []
+  @backgrounds = []
 end
 
 def update
-  @speed += 5 if Input.mouse_press?(0)
-  @speed -= 5 if Input.mouse_down?(2) 
+  if Input.mouse_down?(0)
+    @lines << Circle.new(Input.mouse_x, Input.mouse_y, 15, Color.new(0, 0, 0))
+  end
 
-  @x += @speed
-
-  if @x > 1024
-    @x = 0
-  elsif @x < 0
-    @x = 1024 
+  if Input.mouse_down?(2)
+    @backgrounds << Circle.new(Input.mouse_x, Input.mouse_y, 30, Color.new(255, 255, 255))
   end
 end
 
+def draw
+  @backgrounds.each do |c|
+    c.draw
+  end
+
+  @lines.each do |c|
+    c.draw
+  end
+
+  set_color(0, 0, 0)
+  text("#{get_frame_rate} fps", 10, 15)
+  text("Mouse: #{mouse_debug_str}", 10, 30)
+  text("#{@lines.size} + #{@backgrounds.size}", 10, 45)
+end
+
 def mouse_debug_str
-  str = "(#{Input.mouse_x}, #{Input.mouse_y})"
+  str = format("(%4d, %4d)", Input.mouse_x, Input.mouse_y)
 
   # press?
   str += " press?: "
@@ -43,41 +52,35 @@ def mouse_debug_str
   str
 end
 
-def draw
-  set_color(0, 0, 0)
-  text("#{get_frame_rate} fps", 10, 15)
-  text("Mouse: #{mouse_debug_str}", 10, 30)
-  text(<<EOF, 10, 50)
-speed       : #{@speed}
-mouse left  : speed up
-mouse right : speed down
-EOF
+class Circle
+  attr_reader :x
+  attr_reader :y
+  attr_reader :radius
 
-  set_color(255, 0, 0)
-  circle(@x, 100, 30)
+  def initialize(x, y, radius, color)
+    @x = x
+    @y = y
+    @radius = radius
+    @color = color
+  end
 
-  set_color(0, 255, 0)
-  circle(@x + 20, 200, 35)
-
-  set_color(0, 0, 255)
-  circle(@x + 40, 300, 40)
-
-  c = (@x * 0.7) % 255
-  set_color(c, c, c)
-  circle(@x + 60, 400, 45)
-
-  set_color(0, 128, 128)
-  circle(Input.mouse_x, Input.mouse_y, 30)
+  def draw
+    # set_color(255, 0, 0)
+    @color.set_color
+    circle(@x, @y, @radius)
+  end
 end
 
-# class Circle
-#   def initialize(x, y)
-#     @x = x
-#     @y = y
+class Color
+  def initialize(r, g, b)
+    @r = r
+    @g = g
+    @b = b
+  end
 
-#     Input.mousex
-#     Input.mousey
-#     Input.dragged
-        
-#   end
-# end
+  def set_color
+    Kernel.set_color(@r, @g, @b)
+  end
+end
+
+
